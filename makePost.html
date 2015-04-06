@@ -1,0 +1,96 @@
+<!DOCTYPE>
+<HTML>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>making your post</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+    <style type="text/css">
+        #inputBlock{
+            margin: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        function geoFindMe() {
+            var output = document.getElementById("demo");
+
+            if (!navigator.geolocation){
+                output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
+                return;
+            }
+
+            function success(position) {
+                var latitude  = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                document.getElementsByName("latitude")[0].value=latitude;
+                document.getElementsByName("longitude")[0].value= longitude;
+
+                output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+
+                var img = new Image();
+                img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
+
+                output.appendChild(img);
+            };
+
+            function error() {
+                output.innerHTML = "Unable to retrieve your location";
+            };
+
+            output.innerHTML = "<p>Locating…</p>";
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+
+
+    </script>
+</head>
+<body>
+<div class = "main form-horizontal">
+    <div id="inputBlock">
+        <form id="inputForm" class="form-horizontal" action="/makePost" method="post">
+            <div class="form-group">
+                <label for="inputTitle" class="col-md-2 control-label">title:* </label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="postTitle" name="post_title" placeholder="Enter post title">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputContent" class="col-md-2 control-label">Content: </label>
+                <div class="col-md-6"><textarea rows="10" cols="50"  class="form-control" id="postContent" name="post_content" placeholder="type your post content"></textarea></div>
+            </div>
+            <div class="form-group">
+                <label for="inputTime" class="col-md-2 control-label">Time Slot: </label>
+                <div class="col-md-5">
+                    <input type="number" class="form-control" id="timeSlot" name="time_slot">
+                </div>
+                <label for="inputTime" class="control-label">minutes </label>
+            </div>
+            <div class="form-group">
+                <label for="inputLocation" class="col-md-2 control-label">Location: </label>
+                <div class="col-md-6">
+                    <input type="button" id="btnLocation" class="btn btn-primary pull-right" onclick="geoFindMe()" value="Add Location">
+                    <div id="demo"></div>
+                    <input type="hidden" name="latitude" >
+                    <input type="hidden" name="longitude" >
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-8">
+                    <button id="btnSubmit" type="submit" class="btn btn-primary pull-right">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</HTML>

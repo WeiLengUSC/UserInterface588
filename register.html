@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register for Snapost</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function beginRegister(){
+            $.ajax({
+                method: "POST",
+                url: "Controller/addUser.php",
+                data: $("#registerForm").serialize() + "&addUser=true",
+                //dataType:'json',
+                success: function(info){
+                    //$("#showResult").html("Success");
+                    //$("#showResult").html(info.toString());
+                    window.location.replace("http://localhost:63342/CSCI588/login.html");
+                },
+                error: function(error){
+                    $("#showResult").html("Error");
+                }
+            });
+        }
+
+        function clearRegister(){
+
+        }
+    </script>
+</head>
+<body>
+    <div id="register" class="form-horizontal">
+        <form id="registerForm" class="form-horizontal">
+            <div class="form-group">
+                <label for="inputUserName" class="col-md-2 control-label">Username:* </label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="username" name="user_name" placeholder="Enter username">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="col-md-2 control-label">Password*: </label>
+                <div class="col-md-6"><input type="password" class="form-control" id="password" name="pass_word" placeholder="Enter password"></div>
+            </div>
+            <div class="form-group">
+                <label for="inputRetype" class="col-md-2 control-label"> Retype: </label>
+                <div class="col-md-6">
+                    <input type="password" class="form-control" id="retypePwd" name="retype_pwd">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail" class="col-md-2 control-label"> Email(*): </label>
+                <div class="col-md-6">
+                    <input type="email" class="form-control" id="userEmail" name="user_email">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-8">
+                    <input id="btnReset" type="button" class="btn btn-default pull-right" value="Clear" onclick="clearRegister()">
+                    <input id="btnSubmit" type="button" class="btn btn-primary pull-right" value="Register" onclick="beginRegister()">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="showResult">
+
+    </div>
+</body>
+</html>
